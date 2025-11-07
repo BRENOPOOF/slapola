@@ -1,5 +1,3 @@
--- Minha Versão única - Magnus Modificações 
--- Ser tive outro igual, e meu ramake rsrsrs
 local MarketplaceService = game:GetService("MarketplaceService")
 local UserInputService = game:GetService("UserInputService")
 local TweenService = game:GetService("TweenService")
@@ -25,11 +23,7 @@ local redzlib = {
 			["Color Dark Text"] = Color3.fromRGB(240, 120, 120),
 			["Color Dark Blue"] = Color3.fromRGB(210, 0, 0),
 			["Color Hub 9"] = Color3.fromRGB(0, 0, 0),
-			["Color Dark Cyan"] = Color3.fromRGB(220, 0, 0),
-			["CloseIcon"] = "rbxassetid://8355880961",
-			["MinusIcon"] = "rbxassetid://10734896206",
-			["PlusIcon"] = "rbxassetid://10734924532",
-			["ConfigIcon"] = "rbxassetid://10734950309"
+			["Color Dark Cyan"] = Color3.fromRGB(220, 0, 0)
 		},
 		Blue = {
 			["Color Hub 1"] = ColorSequence.new({
@@ -44,11 +38,7 @@ local redzlib = {
 			["Color Dark Text"] = Color3.fromRGB(120, 200, 240),
 			["Color Dark Blue"] = Color3.fromRGB(0, 140, 210),
 			["Color Hub 9"] = Color3.fromRGB(0, 0, 0),
-			["Color Dark Cyan"] = Color3.fromRGB(0, 160, 220),
-			["CloseIcon"] = "rbxassetid://10747384394",
-			["MinusIcon"] = "rbxassetid://10734896206",
-			["PlusIcon"] = "rbxassetid://10734924532",
-			["ConfigIcon"] = "rbxassetid://10734950309"
+			["Color Dark Cyan"] = Color3.fromRGB(0, 160, 220)
 		},
 		Purple = {
 			["Color Hub 1"] = ColorSequence.new({
@@ -63,11 +53,7 @@ local redzlib = {
 			["Color Dark Text"] = Color3.fromRGB(200, 120, 240),
 			["Color Dark Blue"] = Color3.fromRGB(140, 0, 210),
 			["Color Hub 9"] = Color3.fromRGB(0, 0, 0),
-			["Color Dark Cyan"] = Color3.fromRGB(160, 0, 220),
-			["CloseIcon"] = "rbxassetid://7828432757",
-			["MinusIcon"] = "rbxassetid://10734896206",
-			["PlusIcon"] = "rbxassetid://10734924532",
-			["ConfigIcon"] = "rbxassetid://10734950309"
+			["Color Dark Cyan"] = Color3.fromRGB(160, 0, 220)
 		},
 		Green = {
 			["Color Hub 1"] = ColorSequence.new({
@@ -82,11 +68,7 @@ local redzlib = {
 			["Color Dark Text"] = Color3.fromRGB(120, 240, 120),
 			["Color Dark Blue"] = Color3.fromRGB(0, 210, 0),
 			["Color Hub 9"] = Color3.fromRGB(0, 0, 0),
-			["Color Dark Cyan"] = Color3.fromRGB(0, 220, 0),
-			["CloseIcon"] = "rbxassetid://136446636508735",
-			["MinusIcon"] = "rbxassetid://10734896206",
-			["PlusIcon"] = "rbxassetid://10734924532",
-			["ConfigIcon"] = "rbxassetid://10734950309"
+			["Color Dark Cyan"] = Color3.fromRGB(0, 220, 0)
 		},
 		Pink = {
 			["Color Hub 1"] = ColorSequence.new({
@@ -101,11 +83,7 @@ local redzlib = {
 			["Color Dark Text"] = Color3.fromRGB(240, 120, 200),
 			["Color Dark Blue"] = Color3.fromRGB(210, 0, 140),
 			["Color Hub 9"] = Color3.fromRGB(0, 0, 0),
-			["Color Dark Cyan"] = Color3.fromRGB(220, 0, 160),
-			["CloseIcon"] = "rbxassetid://8472853398",
-			["MinusIcon"] = "rbxassetid://10734896206",
-			["PlusIcon"] = "rbxassetid://10734924532",
-			["ConfigIcon"] = "rbxassetid://10734950309"
+			["Color Dark Cyan"] = Color3.fromRGB(220, 0, 160)
 		},
 		Yellow = {
 			["Color Hub 1"] = ColorSequence.new({
@@ -120,11 +98,7 @@ local redzlib = {
 			["Color Dark Text"] = Color3.fromRGB(240, 240, 120),
 			["Color Dark Blue"] = Color3.fromRGB(210, 210, 0),
 			["Color Hub 9"] = Color3.fromRGB(0, 0, 0),
-			["Color Dark Cyan"] = Color3.fromRGB(220, 220, 0),
-			["CloseIcon"] = "rbxassetid://10747384394",
-			["MinusIcon"] = "rbxassetid://10734896206",
-			["PlusIcon"] = "rbxassetid://10734924532",
-			["ConfigIcon"] = "rbxassetid://10734950309"
+			["Color Dark Cyan"] = Color3.fromRGB(220, 220, 0)
 		}
 	},
 	Info = {
@@ -1485,21 +1459,6 @@ function redzlib:SetTheme(NewTheme)
 			Val.Instance[GetColor(Val.Instance)] = Theme["Color Theme"]
 		end
 	end)
-	
-	-- Atualizar ícones dos botões
-	if ScreenGui and ScreenGui:FindFirstChild("Hub") then
-		local Hub = ScreenGui.Hub
-		local ButtonsFolder = Hub:FindFirstChild("Components"):FindFirstChild("Top Bar"):FindFirstChild("Buttons")
-		if ButtonsFolder then
-			local CloseButton = ButtonsFolder:FindFirstChild("Close")
-			local MinimizeButton = ButtonsFolder:FindFirstChild("Minimize")
-			local ConfigButton = ButtonsFolder:FindFirstChild("Config")
-			
-			if CloseButton then CloseButton.Image = Theme["CloseIcon"] end
-			if MinimizeButton then MinimizeButton.Image = Theme["MinusIcon"] end
-			if ConfigButton then ConfigButton.Image = Theme["ConfigIcon"] end
-		end
-	end
 end
 
 function redzlib:SetScale(NewScale)
@@ -1757,10 +1716,10 @@ function redzlib:MakeWindow(Configs)
 	})
 	
 	local ParticleConfig = {
-		MaxParticles = 30,
+		MaxParticles = 47,
 		SpawnRate = 0.1,
-		ParticleSize = {Min = 2, Max = 4},
-		ParticleSpeed = {Min = 6, Max = 12},
+		ParticleSize = {Min = 1, Max = 4},
+		ParticleSpeed = {Min = 1, Max = 4},
 		ParticleLifetime = 6
 	}
 
@@ -1912,27 +1871,32 @@ function redzlib:MakeWindow(Configs)
 		Name = "Buttons"
 	})
 	
-	-- Criar botões com mais espaçamento
-	local CloseButton = Create("ImageButton", ButtonsFolder, {
+	local CloseButton = Create("ImageButton", {
 		Size = UDim2.new(0, 14, 0, 14),
 		Position = UDim2.new(1, -10, 0.5),
 		AnchorPoint = Vector2.new(1, 0.5),
 		BackgroundTransparency = 1,
-		Image = Theme["CloseIcon"],
+		Image = "rbxassetid://10747384394",
 		AutoButtonColor = false,
 		Name = "Close"
 	})
-
+	
 	local MinimizeButton = SetProps(CloseButton:Clone(), {
-		Position = UDim2.new(1, -35, 0.5), -- Aumentado de -30 para -35
-		Image = Theme["MinusIcon"],
+		Position = UDim2.new(1, -35, 0.5),
+		Image = "rbxassetid://10734896206",
 		Name = "Minimize"
 	})
 
 	local ConfigButton = SetProps(CloseButton:Clone(), {
-		Position = UDim2.new(1, -60, 0.5), -- Aumentado de -50 para -60
-		Image = Theme["ConfigIcon"],
+		Position = UDim2.new(1, -60, 0.5),
+		Image = "rbxassetid://10734950309",
 		Name = "Config"
+	})
+
+	SetChildren(ButtonsFolder, {
+		CloseButton,
+		MinimizeButton,
+		ConfigButton
 	})
 	
 	local Minimized, SaveSize, WaitClick
@@ -1956,7 +1920,7 @@ function redzlib:MakeWindow(Configs)
 		WaitClick = true
 		
 		if Minimized then
-			MinimizeButton.Image = Theme["MinusIcon"]
+			MinimizeButton.Image = "rbxassetid://10734896206"
 			CreateTween({MainFrame, "Size", SaveSize, 0.25, true})
 			ControlSize1.Visible = true
 			ControlSize2.Visible = true
@@ -1967,7 +1931,7 @@ function redzlib:MakeWindow(Configs)
 			end
 			Minimized = false
 		else
-			MinimizeButton.Image = Theme["PlusIcon"]
+			MinimizeButton.Image = "rbxassetid://10734924532"
 			SaveSize = MainFrame.Size
 			ControlSize1.Visible = false
 			ControlSize2.Visible = false
@@ -2039,8 +2003,8 @@ function redzlib:MakeWindow(Configs)
 
 	function Window:AddMinimizeButton(Configs)
 		local Button = MakeDrag(Create("ImageButton", ScreenGui, {
-			Size = UDim2.fromOffset(12, 12),
-			Position = UDim2.fromScale(0.15, 0.15),
+			Size = UDim2.fromOffset(6, 6),
+			Position = UDim2.fromScale(0.30, 0.30),
 			BackgroundTransparency = 1,
 			AutoButtonColor = false
 		}))
