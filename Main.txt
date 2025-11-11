@@ -63,7 +63,22 @@ local redzlib = {
     ["Color Theme"] = Color3.fromRGB(255, 140, 0),
     ["Color Text"] = Color3.fromRGB(250, 240, 200),
     ["Color Dark Text"] = Color3.fromRGB(200, 120, 100)
-}
+},
+		Christmas = {
+			["Color Hub 1"] = ColorSequence.new({
+				ColorSequenceKeypoint.new(0.00, Color3.fromRGB(120, 0, 0)),
+				ColorSequenceKeypoint.new(0.50, Color3.fromRGB(180, 0, 0)),
+				ColorSequenceKeypoint.new(1.00, Color3.fromRGB(120, 0, 0))
+			}),
+			["Color Hub 2"] = Color3.fromRGB(100, 0, 0),
+			["Color Stroke"] = Color3.fromRGB(150, 0, 0),
+			["Color Theme"] = Color3.fromRGB(255, 255, 255),
+			["Color Text"] = Color3.fromRGB(255, 255, 255),
+			["Color Dark Text"] = Color3.fromRGB(220, 220, 220),
+			["Color Dark Purple"] = Color3.fromRGB(255, 255, 255),
+			["Color Hub 9"] = Color3.fromRGB(0, 0, 0, 0),
+			["Color Dark Greem"] = Color3.fromRGB(255, 255, 255)
+		}
 	},
 	Info = {
 		Version = "1.2.0"
@@ -71,7 +86,7 @@ local redzlib = {
 	Save = {
 		UISize = {550, 380},
 		TabSize = 160,
-		Theme = "Halloween"
+		Theme = "Christmas"
 	},
 	Settings = {},
 	Connection = {},
@@ -907,30 +922,22 @@ local ParticleConfig = {
 	ParticleLifetime = 6
 }
 
-local PumpkinConfig = {
-	MaxPumpkins = 10,
-	SpawnRate = 1.2,
-	PumpkinSize = {Min = 40, Max = 70},
-	PumpkinSpeed = {Min = 10, Max = 20},
-	PumpkinLifetime = 10,
-	PumpkinIDs = {
-		"rbxassetid://11559843780621",
-		"rbxassetid://11559843780621",
-		"rbxassetid://3518927409",
-		"rbxassetid://3518927409"
-	},
-	FloatAmplitude = 2,
-	FloatFrequency = 2,
-	RotationEnabled = true,
-	RotationSpeed = {Min = 1, Max = 3}
+local SnowConfig = {
+	MaxSnowflakes = 20,
+	SpawnRate = 0.2,
+	SnowflakeSize = {Min = 8, Max = 15},
+	SnowflakeSpeed = {Min = 10, Max = 20},
+	SnowflakeLifetime = 8,
+	FloatAmplitude = 3,
+	FloatFrequency = 1.5
 }
 
 local ActiveParticles = {}
-local ActivePumpkins = {}
+local ActiveSnowflakes = {}
 local LastSpawn = 0
-local LastPumpkinSpawn = 0
+local LastSnowSpawn = 0
 
-local function CreateCyberpunkParticle()
+local function CreateChristmasParticle()
 	if #ActiveParticles >= ParticleConfig.MaxParticles then return end
 	if not ParticleContainer or not ParticleContainer.Parent then return end
 	
@@ -941,7 +948,7 @@ local function CreateCyberpunkParticle()
 	local startY = containerSize.Y + 20
 	local size = math.random(ParticleConfig.ParticleSize.Min, ParticleConfig.ParticleSize.Max)
 	local speed = math.random(ParticleConfig.ParticleSpeed.Min, ParticleConfig.ParticleSpeed.Max)
-	local particleColor = Theme["Color Theme"]
+	local particleColor = Theme["Color Theme"] -- Branco
 	
 	local Particle = Create("Frame", ParticleContainer, {
 		Size = UDim2.fromOffset(size, size),
@@ -983,7 +990,7 @@ local function CreateCyberpunkParticle()
 	table.insert(ActiveParticles, ParticleData)
 end
 
-local function UpdateCyberpunkParticles(deltaTime)
+local function UpdateChristmasParticles(deltaTime)
 	if not ParticleContainer or not ParticleContainer.Parent then
 		for i = #ActiveParticles, 1, -1 do
 			if ActiveParticles[i].Frame then
@@ -1030,18 +1037,18 @@ local function UpdateCyberpunkParticles(deltaTime)
 	end
 end
 
-local function SpawnCyberpunkSystem()
+local function SpawnChristmasSystem()
 	if not MainFrame or not MainFrame.Visible then return end
 	
 	local currentTime = tick()
 	if currentTime - LastSpawn >= ParticleConfig.SpawnRate then
-		CreateCyberpunkParticle()
+		CreateChristmasParticle()
 		LastSpawn = currentTime
 	end
 end
 
-local function CreatePumpkinParticle()
-	if #ActivePumpkins >= PumpkinConfig.MaxPumpkins then return end
+local function CreateSnowflakeParticle()
+	if #ActiveSnowflakes >= SnowConfig.MaxSnowflakes then return end
 	if not ParticleContainer or not ParticleContainer.Parent then return end
 	
 	local containerSize = ParticleContainer.AbsoluteSize
@@ -1049,97 +1056,91 @@ local function CreatePumpkinParticle()
 	
 	local startX = math.random(10, math.max(11, containerSize.X - 10))
 	local startY = containerSize.Y + 60
-	local size = math.random(PumpkinConfig.PumpkinSize.Min, PumpkinConfig.PumpkinSize.Max)
-	local speed = math.random(PumpkinConfig.PumpkinSpeed.Min, PumpkinConfig.PumpkinSpeed.Max)
-	local imageID = PumpkinConfig.PumpkinIDs[math.random(1, #PumpkinConfig.PumpkinIDs)]
-	local rotationSpeed = PumpkinConfig.RotationEnabled and math.random(PumpkinConfig.RotationSpeed.Min, PumpkinConfig.RotationSpeed.Max) or 0
+	local size = math.random(SnowConfig.SnowflakeSize.Min, SnowConfig.SnowflakeSize.Max)
+	local speed = math.random(SnowConfig.SnowflakeSpeed.Min, SnowConfig.SnowflakeSpeed.Max)
 	
-	local Pumpkin = Create("ImageLabel", ParticleContainer, {
+	local Snowflake = Create("ImageLabel", ParticleContainer, {
 		Size = UDim2.fromOffset(size, size),
 		Position = UDim2.fromOffset(startX, startY),
 		BackgroundTransparency = 1,
-		Image = imageID,
-		ImageColor3 = Color3.fromRGB(255, 140, 0),
+		Image = "rbxassetid://11559843780621", -- Imagem de floco de neve
+		ImageColor3 = Color3.fromRGB(255, 255, 255),
 		ImageTransparency = 1,
 		ZIndex = -3,
 		Rotation = 0
 	})
 	
-	local PumpkinData = {
-		Frame = Pumpkin,
+	local SnowflakeData = {
+		Frame = Snowflake,
 		StartTime = tick(),
 		Speed = speed,
 		Direction = Vector2.new(0, -speed),
-		RotationSpeed = rotationSpeed,
 		FloatOffset = math.random(0, 360),
 		InitialX = startX
 	}
 	
-	CreateTween({Pumpkin, "ImageTransparency", 0.1, 0.8})
+	CreateTween({Snowflake, "ImageTransparency", 0.1, 0.8})
 	
-	table.insert(ActivePumpkins, PumpkinData)
+	table.insert(ActiveSnowflakes, SnowflakeData)
 end
 
-local function UpdatePumpkinParticles(deltaTime)
+local function UpdateSnowflakeParticles(deltaTime)
 	if not ParticleContainer or not ParticleContainer.Parent then
-		for i = #ActivePumpkins, 1, -1 do
-			if ActivePumpkins[i].Frame then
-				ActivePumpkins[i].Frame:Destroy()
+		for i = #ActiveSnowflakes, 1, -1 do
+			if ActiveSnowflakes[i].Frame then
+				ActiveSnowflakes[i].Frame:Destroy()
 			end
-			table.remove(ActivePumpkins, i)
+			table.remove(ActiveSnowflakes, i)
 		end
 		return
 	end
 	
 	local currentTime = tick()
 	
-	for i = #ActivePumpkins, 1, -1 do
-		local pumpkin = ActivePumpkins[i]
+	for i = #ActiveSnowflakes, 1, -1 do
+		local snowflake = ActiveSnowflakes[i]
 		
-		if pumpkin.Frame and pumpkin.Frame.Parent then
-			local elapsed = currentTime - pumpkin.StartTime
-			local currentPos = pumpkin.Frame.Position
-			local newY = currentPos.Y.Offset + (pumpkin.Direction.Y * deltaTime)
+		if snowflake.Frame and snowflake.Frame.Parent then
+			local elapsed = currentTime - snowflake.StartTime
+			local currentPos = snowflake.Frame.Position
+			local newY = currentPos.Y.Offset + (snowflake.Direction.Y * deltaTime)
 			
-			if elapsed >= PumpkinConfig.PumpkinLifetime or newY < -70 then
-				CreateTween({pumpkin.Frame, "ImageTransparency", 1, 0.6, true})
+			if elapsed >= SnowConfig.SnowflakeLifetime or newY < -70 then
+				CreateTween({snowflake.Frame, "ImageTransparency", 1, 0.6, true})
 				task.delay(0.6, function()
-					if pumpkin.Frame and pumpkin.Frame.Parent then
-						pumpkin.Frame:Destroy()
+					if snowflake.Frame and snowflake.Frame.Parent then
+						snowflake.Frame:Destroy()
 					end
 				end)
-				table.remove(ActivePumpkins, i)
+				table.remove(ActiveSnowflakes, i)
 			else
-				local floatX = math.sin((currentTime * PumpkinConfig.FloatFrequency) + pumpkin.FloatOffset) * PumpkinConfig.FloatAmplitude
-				local newX = pumpkin.InitialX + floatX
+				local floatX = math.sin((currentTime * SnowConfig.FloatFrequency) + snowflake.FloatOffset) * SnowConfig.FloatAmplitude
+				local newX = snowflake.InitialX + floatX
 				
-				pumpkin.Frame.Position = UDim2.fromOffset(newX, newY)
-				
-				if PumpkinConfig.RotationEnabled then
-					pumpkin.Frame.Rotation = (pumpkin.Frame.Rotation + (pumpkin.RotationSpeed * deltaTime * 60)) % 360
-				end
+				snowflake.Frame.Position = UDim2.fromOffset(newX, newY)
+				snowflake.Frame.Rotation = (snowflake.Frame.Rotation + (2 * deltaTime * 60)) % 360
 			end
 		else
-			table.remove(ActivePumpkins, i)
+			table.remove(ActiveSnowflakes, i)
 		end
 	end
 end
 
-local function SpawnPumpkinSystem()
+local function SpawnSnowflakeSystem()
 	if not MainFrame or not MainFrame.Visible then return end
 	
 	local currentTime = tick()
-	if currentTime - LastPumpkinSpawn >= PumpkinConfig.SpawnRate then
-		CreatePumpkinParticle()
-		LastPumpkinSpawn = currentTime
+	if currentTime - LastSnowSpawn >= SnowConfig.SpawnRate then
+		CreateSnowflakeParticle()
+		LastSnowSpawn = currentTime
 	end
 end
 
 local ParticleConnection = RunService.Heartbeat:Connect(function(deltaTime)
-	UpdateCyberpunkParticles(deltaTime)
-	SpawnCyberpunkSystem()
-	UpdatePumpkinParticles(deltaTime)
-	SpawnPumpkinSystem()
+	UpdateChristmasParticles(deltaTime)
+	SpawnChristmasSystem()
+	UpdateSnowflakeParticles(deltaTime)
+	SpawnSnowflakeSystem()
 end)
 
 	local ControlSize1, ControlSize2 = MakeDrag(Create("ImageButton", MainFrame, {
@@ -1213,7 +1214,7 @@ end)
 	function Window:CloseBtn()
 		local Dialog = Window:Dialog({
 			Title = "Close",
-			Text = "Deseja realmente fechar o Drip Client? Ele contém recursos essenciais e fechar agora pode interromper funções importantes, causar falhas ou perder suas configurações. Cuidado antes de prosseguir!",
+			Text = "Deseja realmente fechar o Nick Hub? Ele contém recursos essenciais e fechar agora pode interromper funções importantes, causar falhas ou perder suas configurações. Cuidado antes de prosseguir!",
 			Options = {
 				{"Confirm", function()
 					ScreenGui:Destroy()
@@ -1561,7 +1562,7 @@ end
 			local SectionLabel = InsertTheme(Create("TextLabel", SectionFrame, {
 				Font = Enum.Font.BuilderSansExtraBold,--GothamBold
 				Text = SectionName,
-				TextColor3 = Theme["Color Dark Purple"],
+				TextColor3 = Theme["Color Theme"], -- Branco
 				Size = UDim2.new(1, -25, 1, 0),
 				Position = UDim2.new(0, 30),
 				BackgroundTransparency = 1,
@@ -1623,7 +1624,7 @@ end
 				Position = UDim2.new(1, -10, 0.5),
 				AnchorPoint = Vector2.new(1, 0.5),
 				BackgroundTransparency = 1,
-				Image = "rbxassetid://126463403744337"
+				Image = "rbxassetid://7988044866"
 			})
 			
 			FButton.Activated:Connect(function()
@@ -2365,7 +2366,7 @@ function Tab:AddDiscordInvite(Configs)
 	local InviteLabel = InsertTheme(Create("TextLabel", InviteHolder, {
 		Size = UDim2.new(1, 0, 0, 15),
 		Position = UDim2.new(0, 5),
-		TextColor3 = Color3.fromRGB(40, 150, 255),
+		TextColor3 = Color3.fromRGB(255, 255, 255), -- Branco
 		Font = Enum.Font.GothamBold,
 		TextXAlignment = "Left",
 		BackgroundTransparency = 1,
@@ -2386,7 +2387,7 @@ function Tab:AddDiscordInvite(Configs)
 	local BannerArea = Create("ImageLabel", MainFrame, {
 		Size = UDim2.new(1, 0, 0.28, 0),
 		Image = BannerImage,
-		BackgroundColor3 = Color3.fromRGB(88, 101, 242),
+		BackgroundColor3 = Color3.fromRGB(200, 0, 0), -- Vermelho natalino
 		BackgroundTransparency = BannerImage ~= "" and 1 or 0,
 		ScaleType = Enum.ScaleType.Crop
 	})
@@ -2396,8 +2397,8 @@ function Tab:AddDiscordInvite(Configs)
 		local BannerGradient = Create("UIGradient", BannerArea, {
 			Rotation = -15,
 			Color = ColorSequence.new({
-				ColorSequenceKeypoint.new(0, Color3.fromRGB(88, 101, 242)),
-				ColorSequenceKeypoint.new(1, Color3.fromRGB(120, 130, 255))
+				ColorSequenceKeypoint.new(0, Color3.fromRGB(200, 0, 0)),
+				ColorSequenceKeypoint.new(1, Color3.fromRGB(150, 0, 0))
 			})
 		})
 	end
@@ -2477,11 +2478,11 @@ function Tab:AddDiscordInvite(Configs)
 		end
 		
 		if MembersOnline > 0 then
-			CreateStatusIndicator(Color3.fromRGB(67, 181, 129), MembersOnline .. " Online")
+			CreateStatusIndicator(Color3.fromRGB(255, 255, 255), MembersOnline .. " Online") -- Branco
 		end
 		
 		if TotalMembers > 0 then
-			CreateStatusIndicator(Color3.fromRGB(86, 101, 105), TotalMembers .. " Members")
+			CreateStatusIndicator(Color3.fromRGB(220, 220, 220), TotalMembers .. " Members") -- Cinza claro
 		end
 	end
 	
@@ -2527,8 +2528,8 @@ function Tab:AddDiscordInvite(Configs)
 		Text = "Join Server",
 		Font = Enum.Font.GothamBold,
 		TextSize = 10,
-		BackgroundColor3 = Color3.fromRGB(67, 181, 129),
-		TextColor3 = Theme["Color Text"]
+		BackgroundColor3 = Color3.fromRGB(255, 255, 255), -- Branco
+		TextColor3 = Color3.fromRGB(200, 0, 0) -- Texto vermelho
 	}), "Text")
 	Make("Corner", JoinButton, UDim.new(0.5, 0))
 	
