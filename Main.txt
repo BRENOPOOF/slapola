@@ -66,18 +66,18 @@ local redzlib = {
 },
 		Christmas = {
 			["Color Hub 1"] = ColorSequence.new({
-				ColorSequenceKeypoint.new(0.00, Color3.fromRGB(120, 0, 0)),
-				ColorSequenceKeypoint.new(0.50, Color3.fromRGB(180, 0, 0)),
-				ColorSequenceKeypoint.new(1.00, Color3.fromRGB(120, 0, 0))
+				ColorSequenceKeypoint.new(0.00, Color3.fromRGB(255, 255, 255)),
+				ColorSequenceKeypoint.new(0.50, Color3.fromRGB(255, 255, 255)),
+				ColorSequenceKeypoint.new(1.00, Color3.fromRGB(255, 255, 255))
 			}),
-			["Color Hub 2"] = Color3.fromRGB(100, 0, 0),
-			["Color Stroke"] = Color3.fromRGB(150, 0, 0),
-			["Color Theme"] = Color3.fromRGB(255, 255, 255),
-			["Color Text"] = Color3.fromRGB(255, 255, 255),
-			["Color Dark Text"] = Color3.fromRGB(220, 220, 220),
-			["Color Dark Purple"] = Color3.fromRGB(255, 255, 255),
+			["Color Hub 2"] = Color3.fromRGB(255, 255, 255),
+			["Color Stroke"] = Color3.fromRGB(200, 0, 0),
+			["Color Theme"] = Color3.fromRGB(200, 0, 0),
+			["Color Text"] = Color3.fromRGB(200, 0, 0),
+			["Color Dark Text"] = Color3.fromRGB(150, 0, 0),
+			["Color Dark Purple"] = Color3.fromRGB(200, 0, 0),
 			["Color Hub 9"] = Color3.fromRGB(0, 0, 0, 0),
-			["Color Dark Greem"] = Color3.fromRGB(255, 255, 255)
+			["Color Dark Greem"] = Color3.fromRGB(200, 0, 0)
 		}
 	},
 	Info = {
@@ -948,7 +948,7 @@ local function CreateChristmasParticle()
 	local startY = containerSize.Y + 20
 	local size = math.random(ParticleConfig.ParticleSize.Min, ParticleConfig.ParticleSize.Max)
 	local speed = math.random(ParticleConfig.ParticleSpeed.Min, ParticleConfig.ParticleSpeed.Max)
-	local particleColor = Theme["Color Theme"] -- Branco
+	local particleColor = Theme["Color Theme"] -- Vermelho
 	
 	local Particle = Create("Frame", ParticleContainer, {
 		Size = UDim2.fromOffset(size, size),
@@ -1562,7 +1562,7 @@ end
 			local SectionLabel = InsertTheme(Create("TextLabel", SectionFrame, {
 				Font = Enum.Font.BuilderSansExtraBold,--GothamBold
 				Text = SectionName,
-				TextColor3 = Theme["Color Theme"], -- Branco
+				TextColor3 = Theme["Color Theme"], -- Vermelho
 				Size = UDim2.new(1, -25, 1, 0),
 				Position = UDim2.new(0, 30),
 				BackgroundTransparency = 1,
@@ -2366,7 +2366,7 @@ function Tab:AddDiscordInvite(Configs)
 	local InviteLabel = InsertTheme(Create("TextLabel", InviteHolder, {
 		Size = UDim2.new(1, 0, 0, 15),
 		Position = UDim2.new(0, 5),
-		TextColor3 = Color3.fromRGB(255, 255, 255), -- Branco
+		TextColor3 = Theme["Color Text"], -- Vermelho
 		Font = Enum.Font.GothamBold,
 		TextXAlignment = "Left",
 		BackgroundTransparency = 1,
@@ -2387,7 +2387,7 @@ function Tab:AddDiscordInvite(Configs)
 	local BannerArea = Create("ImageLabel", MainFrame, {
 		Size = UDim2.new(1, 0, 0.28, 0),
 		Image = BannerImage,
-		BackgroundColor3 = Color3.fromRGB(200, 0, 0), -- Vermelho natalino
+		BackgroundColor3 = Theme["Color Theme"], -- Vermelho natalino
 		BackgroundTransparency = BannerImage ~= "" and 1 or 0,
 		ScaleType = Enum.ScaleType.Crop
 	})
@@ -2397,7 +2397,7 @@ function Tab:AddDiscordInvite(Configs)
 		local BannerGradient = Create("UIGradient", BannerArea, {
 			Rotation = -15,
 			Color = ColorSequence.new({
-				ColorSequenceKeypoint.new(0, Color3.fromRGB(200, 0, 0)),
+				ColorSequenceKeypoint.new(0, Theme["Color Theme"]),
 				ColorSequenceKeypoint.new(1, Color3.fromRGB(150, 0, 0))
 			})
 		})
@@ -2478,11 +2478,11 @@ function Tab:AddDiscordInvite(Configs)
 		end
 		
 		if MembersOnline > 0 then
-			CreateStatusIndicator(Color3.fromRGB(255, 255, 255), MembersOnline .. " Online") -- Branco
+			CreateStatusIndicator(Theme["Color Theme"], MembersOnline .. " Online") -- Vermelho
 		end
 		
 		if TotalMembers > 0 then
-			CreateStatusIndicator(Color3.fromRGB(220, 220, 220), TotalMembers .. " Members") -- Cinza claro
+			CreateStatusIndicator(Color3.fromRGB(150, 0, 0), TotalMembers .. " Members") -- Vermelho escuro
 		end
 	end
 	
@@ -2528,8 +2528,8 @@ function Tab:AddDiscordInvite(Configs)
 		Text = "Join Server",
 		Font = Enum.Font.GothamBold,
 		TextSize = 10,
-		BackgroundColor3 = Color3.fromRGB(255, 255, 255), -- Branco
-		TextColor3 = Color3.fromRGB(200, 0, 0) -- Texto vermelho
+		BackgroundColor3 = Theme["Color Theme"], -- Vermelho
+		TextColor3 = Theme["Color Hub 2"] -- Texto branco
 	}), "Text")
 	Make("Corner", JoinButton, UDim.new(0.5, 0))
 	
